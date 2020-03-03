@@ -12,7 +12,8 @@ ui <-fluidPage(
   
   sidebarPanel(
     selectInput("kat","Vel kategori:", c(Choose=NULL, c("Alle",unique(ord$kategori1))),selectize=TRUE),
-    selectInput("vekt","Vekt:", c(Choose=NULL, c("Frekvens","Sqrt_tf_idf")),selectize=TRUE)
+    selectInput("vekt","Vekt:", c(Choose=NULL, c("Frekvens","Sqrt_tf_idf")),selectize=TRUE),
+    sliderInput("slider", label = "Tal ord", min = 0,max = 500, value = 200)
   ),
                        
    # Viser orskya
@@ -39,7 +40,7 @@ output$ordsky <- renderHighchart({
     }
   
   tekst_ordsky <- klarKatVekt %>%
-    top_n(200,Frekvens) %>%
+    top_n(input$slider,Frekvens) %>%
     rename(name=word,
            weight=vekt)
 
